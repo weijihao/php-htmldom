@@ -1,0 +1,12 @@
+{
+    "name": "weijihao/php-htmldom",
+    "description": "this is a html dom plugins",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "weijihao",
+            "email": "1005474666@qq.com"
+        }
+    ],
+    "require": {}
+}
