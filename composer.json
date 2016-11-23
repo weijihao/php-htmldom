@@ -8,5 +8,8 @@
             "email": "1005474666@qq.com"
         }
     ],
+    "autoload": {
+        "psr-4": { "Weijihao\\HtmlDom\\": "src" }
+    },
     "require": {}
 }
