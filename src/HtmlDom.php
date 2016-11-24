@@ -27,18 +27,47 @@ define('DEFAULT_BR_TEXT', "\r\n");
 define('DEFAULT_SPAN_TEXT', " ");
 define('MAX_FILE_SIZE', 600000);
 
+//use Cake\Utility\Hash;
+
+//helper functions
 class HtmlDom
 {
-    // helper functions
-    // -----------------------------------------------------------------------------
-    // get html dom from file [从文件中获取HTML DOM]
-    // $maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.
-    public function file_get_html($url, $use_include_path = false, $context = null, $offset = -1, $maxLen = -1, $lowercase = true, $forceTagsClosed = true, $target_charset = DEFAULT_TARGET_CHARSET, $stripRN = true, $defaultBRText = DEFAULT_BR_TEXT, $defaultSpanText = DEFAULT_SPAN_TEXT)
+
+    /**
+     * Does a recursive merge of the parameter with the scope config.
+     *
+     * @param array $options Options to merge.
+     * @return array Options merged with set config.
+     */
+    protected function _mergeOptions($options)
     {
+        return Hash::merge($this->_config, $options);
+    }
+
+    /**
+     * [从文件中获取HTML DOM 对象] [get html dom from file]
+     * $maxlen在代码中定义为PHP_STREAM_COPY_ALL，定义为-1. [$maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.]
+     *
+     */
+    //public function file_get_html($url, $use_include_path = false, $context = null, $offset = -1, $maxLen = -1, $lowercase = true, $forceTagsClosed = true, $target_charset = DEFAULT_TARGET_CHARSET, $stripRN = true, $defaultBRText = DEFAULT_BR_TEXT, $defaultSpanText = DEFAULT_SPAN_TEXT)
+    public function file_get_html($content, array $options = [])
+    {
+
+        $default = ['lowercase' => true,
+                    'forceTagsClosed' => true,
+                    'stripRN' => true,
+                    'target_charset' => DEFAULT_TARGET_CHARSET,
+                    'defaultBRText' => DEFAULT_BR_TEXT,
+                    'defaultSpanText' => DEFAULT_SPAN_TEXT
+                   ];
+
+        $config = $this->_mergeOptions($default, $options);
+
+
+        exit;
+
         // We DO force the tags to be terminated.
-        $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $target_charset, $stripRN, $defaultBRText, $defaultSpanText);
-        //var_dump($dom);
-        //exit;
+        $dom = new SimpleHtmlDom(null, $config['lowercase'], $config['forceTagsClosed'], $config['target_charset'], $stripRN, $defaultBRText, $defaultSpanText);
         // For sourceforge users: uncomment the next line and comment the retreive_url_contents line 2 lines down if it is not already done.
         /*
         $contents = file_get_contents($url, $use_include_path, $context, $offset);
@@ -79,8 +108,7 @@ class HtmlDom
 
         // Paperg - use our own mechanism for getting the contents as we want to control the timeout.
         //$contents = retrieve_url_contents($url);
-        if (empty($contents) || strlen($contents) > MAX_FILE_SIZE)
-        {
+        if (empty($contents) || strlen($contents) > MAX_FILE_SIZE) {
             return false;
         }
         // The second parameter can force the selectors to all be lowercase.
