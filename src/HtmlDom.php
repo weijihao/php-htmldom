@@ -37,45 +37,8 @@ class HtmlDom
     {
         // We DO force the tags to be terminated.
         $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $target_charset, $stripRN, $defaultBRText, $defaultSpanText);
-        //var_dump($dom);
-        //exit;
         // For sourceforge users: uncomment the next line and comment the retreive_url_contents line 2 lines down if it is not already done.
-        /*
-        $contents = file_get_contents($url, $use_include_path, $context, $offset);
-        echo $encoding = mb_detect_encoding($contents, ['UTF-8', 'GB2312', 'GBK', 'ASCII']);
-        //$contents = fopen($url, 'r');
-        /*
-
-        //var_dump($contents);
-        if ($encoding && $encoding != 'UTF-8') {
-            $contents = mb_convert_encoding($contents, 'GBK', 'GBK');
-        }
-        */
-        // 创建一个新cURL资源
-        $ch = curl_init();
-        $options = [
-                    CURLOPT_URL => $url,
-                    CURLOPT_HEADER => false,
-                    CURLOPT_CONNECTTIMEOUT => 5,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_MAXREDIRS => 3,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                ];
-        curl_setopt_array($ch, $options);
-
-        //curl_setopt($ch, CURLOPT_HEADER, 0);
-
-        // 抓取URL并把它传递给浏览器
-        $contents = curl_exec($ch);
-
-        // 关闭cURL资源，并且释放系统资源
-        curl_close($ch);
-
-        //$contents = mb_convert_encoding($contents, 'UTF-8', 'GBK');
-
-        //var_dump($contents);
-        //exit;
+        $contents = Curl::getByCurl($url);
 
         // Paperg - use our own mechanism for getting the contents as we want to control the timeout.
         //$contents = retrieve_url_contents($url);

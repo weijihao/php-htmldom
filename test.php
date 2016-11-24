@@ -24,7 +24,7 @@ echo "\n <br/>";
 
 $htmlDom = new Weijihao\HtmlDom\HtmlDom();
 
-$htmDom = $htmlDom->file_get_html("http://www.it-school.cn");
+$htmDom = $htmlDom->file_get_html("http://www.bootcss.com");
 
 foreach($htmDom->find('a') as $element) {
     echo $element->href . $element->innertext . '<br>';
