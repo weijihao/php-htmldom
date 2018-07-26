@@ -3,6 +3,11 @@ namespace Weijihao\HtmlDom;
 
 class Curl
 {
+    /**
+     *
+     *
+     *
+     */
     public function __construct()
     {
 
